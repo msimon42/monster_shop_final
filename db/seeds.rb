@@ -5,10 +5,80 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+OrderItem.destroy_all
+Order.destroy_all
+User.destroy_all
+Merchant.destroy_all
+Item.destroy_all
 
+merchants = FactoryBot.create_list(:merchant, 15)
+items = Array.new
+merchants.each do |merchant|
+  items << FactoryBot.create_list(:item, 30, merchant: merchant)
+  FactoryBot.create(:random_merchant_user, merchant: merchant)
+end
+items.flatten!
+users = FactoryBot.create_list(:random_user, 100)
 
-megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
-brian = Merchant.create!(name: 'Brians Bagels', address: '125 Main St', city: 'Denver', state: 'CO', zip: 80218)
-megan.items.create!(name: 'Ogre', description: "I'm an Ogre!", price: 20, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 5 )
-megan.items.create!(name: 'Giant', description: "I'm a Giant!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
-brian.items.create!(name: 'Hippo', description: "I'm a Hippo!", price: 50, image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw', active: true, inventory: 3 )
+# create some orders
+orders = FactoryBot.create_list(:order, 25)
+orders.each do |order|
+  order_items = items.sample(3)
+  order_items.each do |item|
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory))
+  end
+end
+
+# create some fufilled orders
+orders = FactoryBot.create_list(:order, 15)
+orders.each do |order|
+  order_items = items.sample(3)
+  order_items.each do |item|
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory), fulfilled: true)
+  end
+end
+
+# create some packaged orders
+orders = FactoryBot.create_list(:order, 15, status: 1)
+orders.each do |order|
+  order_items = items.sample(3)
+  order_items.each do |item|
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory), fulfilled: true)
+  end
+end
+
+admin = User.create(
+  name: 'admin',
+  email: 'admin@thriftgames.io',
+  password: 'password',
+  address: '420 main St',
+  city: 'Yourtown',
+  state: 'CO',
+  zip: '80000',
+  role: 1
+)
+
+merchant_test = FactoryBot.create(:merchant)
+
+merchant_user = User.create(
+  name: 'merchant',
+  email: 'merchant@merchant.com',
+  password: 'password',
+  address: '420 Main St',
+  city: 'Yourtown',
+  state: 'CO',
+  zip: '80000',
+  role: 2,
+  merchant_id: merchants.first.id
+)
+
+regular_user= User.create(
+  name: 'Regular User',
+  email: 'regularuser@user.com',
+  password: 'password',
+  address: '420 Main St',
+  city: 'Yourtown',
+  state: 'CO',
+  zip: '80000',
+  role: 0
+)

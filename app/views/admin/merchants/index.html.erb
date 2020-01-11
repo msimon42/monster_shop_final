@@ -1,0 +1,18 @@
+<h1>All Merchants</h1>
+<table>
+  <thead>
+    <th>Name</th>
+    <th>Activate?</th>
+  </thead>
+  <tbody>
+    <% @merchants.each do |merchant| %>
+      <tr>
+        <td><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></td>
+        <td>
+          <%= button_to 'Disable', "/admin/merchants/#{merchant.id}", method: :patch if merchant.enabled? %>
+          <%= button_to 'Enable', "/admin/merchants/#{merchant.id}", method: :patch if !merchant.enabled? %>
+        </td>
+      <tr>
+    <% end %>
+  </tbody>
+</table>

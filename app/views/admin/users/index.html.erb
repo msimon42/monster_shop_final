@@ -1,7 +1,17 @@
+<h1>Users</h1>
+<table>
+  <thead>
+    <th>Name</th>
+    <th>Role</th>
+    <th>Registered</th>
+  </thead>
+  <tbody>
 <% @users.each do |user| %>
-  <section id="user-<%= user.id %>">
-    <h2><%= link_to user.name, "/admin/users/#{user.id}" %></h2>
-    <p>Role: <%= user.role %></p>
-    <p>Registered: <%= user.created_at %></p>
-  </section>
+ <tr id="user-<%= user.id %>">
+    <td><%= link_to user.name, "/admin/users/#{user.id}" %></td>
+    <td>Role: <%= user.role %></td>
+    <td>Registered: <%= user.created_at %></td>
+ </tr>
 <% end %>
+</tbody>
+</table>

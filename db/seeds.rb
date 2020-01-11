@@ -49,16 +49,14 @@ end
 
 admin = User.create(
   name: 'admin',
-  email: 'admin@thriftgames.io',
+  email: 'admin@admin.io',
   password: 'password',
   address: '420 main St',
   city: 'Yourtown',
   state: 'CO',
   zip: '80000',
-  role: 1
+  role: 2
 )
-
-merchant_test = FactoryBot.create(:merchant)
 
 merchant_user = User.create(
   name: 'merchant',
@@ -68,7 +66,7 @@ merchant_user = User.create(
   city: 'Yourtown',
   state: 'CO',
   zip: '80000',
-  role: 2,
+  role: 1,
   merchant_id: merchants.first.id
 )
 

@@ -1,5 +1,23 @@
 class Admin::MerchantsController < Admin::BaseController
   def show
+    @merchant = Merchant.find(params[:id])
+  end
+
+  def index
+    @merchants = Merchant.all
+  end
+
+  def new
+  end
+
+  def create
+    merchant = Merchant.new(merchant_params)
+    if merchant.save
+      redirect_to '/merchants'
+    else
+      generate_flash(merchant)
+      render :new
+    end
   end
 
   def update
@@ -12,6 +30,6 @@ class Admin::MerchantsController < Admin::BaseController
       merchant.items.update_all(active:false)
       flash[:notice] = "#{merchant.name} has been disabled"
     end
-    redirect_to merchants_path
+    redirect_to '/admin/merchants'
   end
 end

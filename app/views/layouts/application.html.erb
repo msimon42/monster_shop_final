@@ -9,28 +9,34 @@
   </head>
 
   <body>
-    <nav>
-      <%= link_to 'Home', '/' %>
-      <%= link_to 'Register', registration_path unless current_user %>
-      <%= link_to 'Log In', login_path unless current_user %>
-      <% if current_user %>
-        <%= link_to 'Log Out', logout_path %>
-        <%= link_to 'Profile', profile_path %>
-        <p>Logged in as <%= current_user.name %></p>
-        <% if current_merchant_user? %>
-          <%= link_to 'Merchant Dashboard', merchant_dashboard_path %>
-        <% elsif current_admin? %>
-          <%= link_to 'Admin Dashboard', admin_dashboard_path %>
-          <%= link_to 'Users', '/admin/users' %>
+    <nav class="navbar navbar-expand-lg navbar-color">
+      <%= link_to 'Home', '/', class: 'navbar-brand' %>
+      <div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+        <div class='navbar-nav'>
+          <%= link_to 'Register', registration_path, class: 'nav-item nav-link'  unless current_user %>
+          <%= link_to 'Log In', login_path, class: 'nav-item nav-link' unless current_user %>
+          <% if current_user %>
+            <%= link_to 'Log Out', logout_path, class: 'nav-item nav-link' %>
+            <%= link_to 'Profile', profile_path, class: 'nav-item nav-link' %>
+            <p>Logged in as <%= current_user.name %></p>
+          <% if current_merchant_user? %>
+            <%= link_to 'Merchant Dashboard', merchant_dashboard_path, class: 'nav-item nav-link' %>
+          <% elsif current_admin? %>
+            <%= link_to 'Admin Dashboard', admin_dashboard_path, class: 'nav-item nav-link' %>
+            <%= link_to 'Users', '/admin/users', class: 'nav-item nav-link' %>
+          <% end %>
         <% end %>
-      <% end %>
-      <%= link_to 'Merchants', '/merchants' %>
-      <%= link_to 'Items', '/items' %>
-      <%= link_to "Cart: #{cart.count}", cart_path unless current_user && current_admin?%>
+        <%= link_to 'Merchants', '/merchants', class: 'nav-item nav-link' %>
+        <%= link_to 'Items', '/items', class: 'nav-item nav-link' %>
+        <%= link_to "Cart: #{cart.count}", cart_path, class: 'nav-item nav-link' unless current_user && current_admin?%>
+       </div>
+      </div>
     </nav>
     <% flash.each do |type, message| %>
-    <p><%= message %></p>
+      <p class="alert alert-<%= type %>"><%= message %></p>
     <% end %>
-    <%= yield %>
+    <div class='container'
+      <%= yield %>
+    </div>
   </body>
 </html>

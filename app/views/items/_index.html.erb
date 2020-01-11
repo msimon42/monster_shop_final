@@ -9,14 +9,16 @@
   <% end %>
 </section>
 
+<div class='card-columns'>
 <% @items.each do |item| %>
-  <section id='item-<%= item.id%>'>
-    <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
-    <p><%= item.description %></p>
-    <%= link_to(image_tag(item.image), item_path(item), id: 'image') %>
-    <p>Price: <%= number_to_currency(item.price) %></p>
-    <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
-    <p><%= item.active ? "Active" : "Inactive" %></p>
+  <section id='item-<%= item.id%>' class='card item-card'>
+    <%= link_to(image_tag(item.image), item_path(item), id: 'image', class: 'card-img-top') %>
+    <h2 class='card-title'><%= link_to item.name, "/items/#{item.id}" %></h2>
+    <p class='card-text'><%= item.description %></p>
+    <p class='card-text'>Price: <%= number_to_currency(item.price) %></p>
+    <p class='card-text'>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>
+    <p class='card-text'>Inventory: <%= item.inventory %></p>
+    <p class='card-text'><%= item.active ? "Active" : "Inactive" if current_admin? %></p>
     <% if current_merchant_user? %>
       <% if item.active? %>
         <%= button_to 'Inactivate', "/merchant/items/#{item.id}/change_status", method: :put %>
@@ -28,3 +30,4 @@
     <% end %>
   </section>
 <% end %>
+</div>

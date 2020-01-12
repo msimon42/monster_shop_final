@@ -1,0 +1,7 @@
+<h1>Edit Coupon</h1>
+<%= render partial: 'form', locals: {path: "/merchant/coupons/#{@coupon.id}",
+                                    method: :patch,
+                                    submit_text: 'Update Coupon',
+                                    name_var: @coupon.name,
+                                    code_var: @coupon.code,
+                                    percent_var: @coupon.percent_off } %>

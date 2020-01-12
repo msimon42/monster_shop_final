@@ -1,0 +1,22 @@
+<h1>My Coupons</h1>
+
+<table>
+  <thead>
+    <th>Name</th>
+    <th>Code</th>
+    <th>Discount</th>
+    <th>Activate?</th>
+  </thead>
+  <tbody>
+    <% @coupons.each do |coupon| %>
+     <tr id="coupon-<%= coupon.id %>">
+      <td><%= coupon.name %></td>
+      <td><%= coupon.code %></td>
+      <td><%= coupon.percent_off %>%</td>
+      <td>Active</td>
+    </tr>
+   <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'Add Coupon', '/merchant/coupons/new' %>

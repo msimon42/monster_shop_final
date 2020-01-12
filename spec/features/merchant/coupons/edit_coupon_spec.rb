@@ -6,7 +6,7 @@ RSpec.describe 'Merchant edit coupon' do
       @merchant_1 = create :merchant
       @merchant_user = create :random_merchant_user, merchant: @merchant_1
       @coupon = create :coupon, merchant: @merchant_1
-      @coupon_2 = create :coupon
+      @coupon_2 = create :coupon, merchant: @merchant_1
       allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
     end
 
@@ -27,7 +27,7 @@ RSpec.describe 'Merchant edit coupon' do
       click_on 'Update Coupon'
 
       expect(current_path).to eq('/merchant/coupons')
-      expect(page).to have_content('Coupon updated_at')
+      expect(page).to have_content('Coupon updated')
 
       within "#coupon-#{@coupon.id}" do
         expect(page).to have_content('bushliedpeopledied')
@@ -38,7 +38,7 @@ RSpec.describe 'Merchant edit coupon' do
       visit "/merchant/coupons/#{@coupon.id}/edit"
 
       fill_in :name, with: ''
-      click_on 'Update Item'
+      click_on 'Update Coupon'
 
       expect(current_path).to eq("/merchant/coupons/#{@coupon.id}/edit")
       expect(page).to have_content("Name can't be blank")
@@ -48,7 +48,7 @@ RSpec.describe 'Merchant edit coupon' do
       visit "/merchant/coupons/#{@coupon.id}/edit"
 
       fill_in :code, with: @coupon_2.code
-      click_on 'Update Item'
+      click_on 'Update Coupon'
 
       expect(current_path).to eq("/merchant/coupons/#{@coupon.id}/edit")
       expect(page).to have_content("Code has already been taken")
@@ -58,7 +58,7 @@ RSpec.describe 'Merchant edit coupon' do
       visit "/merchant/coupons/#{@coupon.id}/edit"
 
       fill_in :name, with: @coupon_2.name
-      click_on 'Update Item'
+      click_on 'Update Coupon'
 
       expect(current_path).to eq("/merchant/coupons/#{@coupon.id}/edit")
       expect(page).to have_content("Name has already been taken")

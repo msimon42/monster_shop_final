@@ -14,3 +14,69 @@
  *= require_self
  */
  @import "bootstrap";
+
+ html {
+   background-color: #FDDEF3;
+ }
+
+ body {
+   background-color: #FDDEF3;
+ }
+
+ a {
+   text-decoration: none;
+ }
+
+ .card-columns {
+   column-count: 5;
+ }
+
+ .navbar-color {
+   background-color: #AE0D7A;
+   color: white;
+ }
+
+ .navbar-color a {
+   color: white;
+ }
+
+ .grid-container{
+ 	display: grid;
+ 	grid-template-columns: repeat(5,1fr);
+ 	grid-template-rows: auto;
+ 	grid-gap: 30px;
+ }
+
+ .grid-item{
+ 	background-color: #AE0D7A;
+ 	padding: 20px;
+  border: solid;
+ 	border-radius: 12px;
+  border-color: #340926;
+ 	text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+ }
+
+ .grid-item a {
+   color: white;
+ }
+
+ .item-card {
+   width: 12rem;
+   height: 550px;
+   padding: 3px;
+   border: solid;
+   border-color: #340926;
+   background-color: #AE0D7A;
+   color: white;
+ }
+
+ .item-card img {
+   width: 12.25rem;
+   padding: 0px;
+ }
+
+ .item-card a {
+   color: white;
+ }

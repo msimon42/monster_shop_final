@@ -1,21 +1,23 @@
 require 'rails_helper'
 
 RSpec.describe 'Existing Merchant Update' do
-  describe 'As a Visitor' do
+  describe 'As an Admin' do
     before :each do
       @megan = Merchant.create!(name: 'Megans Marmalades', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218)
+      @admin = create :random_admin_user
+      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
     end
 
     it 'I can link to an edit merchant page from merchant show page' do
-      visit "/merchants/#{@megan.id}"
+      visit "/admin/merchants/#{@megan.id}"
 
       click_button 'Edit'
 
-      expect(current_path).to eq("/merchants/#{@megan.id}/edit")
+      expect(current_path).to eq("/admin/merchants/#{@megan.id}/edit")
     end
 
     it 'I can use the edit merchant form to update the merchant information' do
-      visit "/merchants/#{@megan.id}/edit"
+      visit "/admin/merchants/#{@megan.id}/edit"
 
       name = 'Megans Monsters'
       address = '321 Main St'
@@ -31,7 +33,7 @@ RSpec.describe 'Existing Merchant Update' do
 
       click_button 'Update Merchant'
 
-      expect(current_path).to eq("/merchants/#{@megan.id}")
+      expect(current_path).to eq("/admin/merchants/#{@megan.id}")
       expect(page).to have_content(name)
       expect(page).to_not have_content(@megan.name)
 
@@ -43,7 +45,7 @@ RSpec.describe 'Existing Merchant Update' do
 
 
     it 'I can not edit a merchant with an incomplete form' do
-      visit "/merchants/#{@megan.id}/edit"
+      visit "/admin/merchants/#{@megan.id}/edit"
 
       name = 'Megans Marmalades'
 

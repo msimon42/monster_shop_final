@@ -7,9 +7,6 @@ class MerchantsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
-  def new
-  end
-
   def create
     merchant = Merchant.new(merchant_params)
     if merchant.save

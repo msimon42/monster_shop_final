@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get '/', to: 'welcome#index'
 
-  resources :merchants do
+  resources :merchants, except: [:new, :create, :edit, :update] do
     resources :items, only: [:index]
   end
 
@@ -43,7 +43,8 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/', to: 'dashboard#index', as: :dashboard
-    resources :merchants, only: [:show, :update]
+    resources :merchants, only: [:show, :update, :new, :create, :index, :edit]
+    patch '/merchants/:id/update-status', to: 'merchants#update_status'
     resources :users, only: [:index, :show]
     patch '/orders/:id/ship', to: 'orders#ship'
   end

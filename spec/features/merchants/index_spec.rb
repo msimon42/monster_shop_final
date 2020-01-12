@@ -41,13 +41,13 @@ RSpec.describe 'Merchant Index Page' do
     end
 
     it 'I can disable a merchant' do
-      visit '/merchants'
+      visit '/admin/merchants'
 
       within "#merchant-#{@megan.id}" do
         click_button('Disable')
       end
 
-      expect(current_path).to eq(merchants_path)
+      expect(current_path).to eq(admin_merchants_path)
       expect(page).to have_content("#{@megan.name} has been disabled")
       visit '/merchants'
       within "#merchant-#{@megan.id}" do
@@ -64,15 +64,15 @@ RSpec.describe 'Merchant Index Page' do
     end
 
     it 'I can enable a merchant' do
-      visit '/merchants'
+      visit '/admin/merchants'
 
       within "#merchant-#{@brian.id}" do
         click_button('Enable')
       end
 
-      expect(current_path).to eq(merchants_path)
+      expect(current_path).to eq(admin_merchants_path)
       expect(page).to have_content("#{@brian.name} has been enabled")
-      visit '/merchants'
+      visit '/admin/merchants'
       within "#merchant-#{@brian.id}" do
         expect(page).to have_button('Disable')
       end

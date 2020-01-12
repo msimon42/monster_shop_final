@@ -293,16 +293,6 @@ RSpec.describe 'Site Navigation' do
         expect(current_path).to eq(items_path)
       end
 
-      it 'all merchants' do
-        visit '/'
-
-        within 'nav' do
-          click_link 'Merchants'
-        end
-
-        expect(current_path).to eq(merchants_path)
-      end
-
       it 'the logout page' do
         visit '/'
 
@@ -317,20 +307,20 @@ RSpec.describe 'Site Navigation' do
         visit '/'
 
         within 'nav' do
-          click_link 'Profile'
+          click_link 'Admin Dashboard'
         end
 
-        expect(current_path).to eq(profile_path)
+        expect(current_path).to eq(admin_dashboard_path)
       end
 
       it 'my merchant page' do
         visit '/'
 
         within 'nav' do
-          click_link 'Admin Dashboard'
+          click_link 'Merchants'
         end
 
-        expect(current_path).to eq(admin_dashboard_path)
+        expect(current_path).to eq(admin_merchants_path)
       end
     end
 

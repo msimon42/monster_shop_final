@@ -27,6 +27,18 @@ class Merchant::CouponsController < Merchant::BaseController
     end
   end
 
+  def destroy
+    coupon = Coupon.find(params[:id])
+    if coupon.orders.empty?
+      coupon.destroy
+      redirect_back fallback_location: '/merchant/coupons'
+      flash[:success] = 'Coupon deleted'
+    else
+      redirect_to '/merchant/coupons'
+      flash[:danger] = 'Coupons with orders cannot be deleted'
+    end
+  end
+
   def new
 
   end

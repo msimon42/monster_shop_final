@@ -5,7 +5,8 @@
     <th>Name</th>
     <th>Code</th>
     <th>Discount</th>
-    <th>Activate?</th>
+    <th>Update?</th>
+    <th>Delete?</th>
   </thead>
   <tbody>
     <% @coupons.each do |coupon| %>
@@ -14,6 +15,7 @@
       <td><%= coupon.code %></td>
       <td><%= coupon.percent_off %>%</td>
       <td><%= button_to 'Update', "/merchant/coupons/#{coupon.id}/edit", method: :get %></td>
+      <td><%= button_to 'Delete', "/merchant/coupons/#{coupon.id}", method: :delete %></td>
     </tr>
    <% end %>
   </tbody>

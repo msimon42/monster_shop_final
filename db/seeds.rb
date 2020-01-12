@@ -80,3 +80,5 @@ regular_user= User.create(
   zip: '80000',
   role: 0
 )
+
+FactoryBot.create_list :coupon, 4, merchant: merchant_user.merchant

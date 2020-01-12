@@ -3,6 +3,8 @@
 <p><%= @merchant.city %> <%= @merchant.state %> <%= @merchant.zip %></p>
 
 <%= link_to 'My Items', '/merchant/items' %>
+<%= button_to 'My Coupons', '/merchant/coupons', method: :get %>
+<%= button_to 'Add Coupon', '/merchant/coupons/new', method: :get %>
 
 <section class="orders">
   <% @merchant.pending_orders.each do |order| %>

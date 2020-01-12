@@ -3,8 +3,9 @@ class Coupon < ApplicationRecord
                        :code,
                        :percent_off
 
-  validates_uniquness_of :name,
+  validates_uniqueness_of :name,
                          :code
 
   belongs_to :merchant
+  has_many :orders
 end

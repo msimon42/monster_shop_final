@@ -15,6 +15,18 @@ class Merchant::CouponsController < Merchant::BaseController
     end
   end
 
+  def update
+    coupon = Coupon.find(params[:id])
+    coupon.update(coupon_params)
+    if coupon.save
+      flash[:success] = 'Coupon updated'
+      redirect_to '/merchant/coupons'
+    else
+      flash[:danger] = coupon.errors.full_messages.to_sentence
+      redirect_back fallback_location: "/merchant/coupons/#{coupon.id}/edit"
+    end
+  end
+
   def new
 
   end
@@ -24,7 +36,7 @@ class Merchant::CouponsController < Merchant::BaseController
   end
 
   def edit
-
+    @coupon = Coupon.find(params[:id])
   end
 
   private

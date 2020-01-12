@@ -1,9 +1,9 @@
 <%= form_tag path, method: method do %>
   <%= label_tag :name %>
-  <%= text_field_tag :name %>
+  <%= text_field_tag :name, name_var %>
   <%= label_tag :code %>
-  <%= text_field_tag :code %>
+  <%= text_field_tag :code, code_var %>
   <%= label_tag :percent_off, 'Percent Discount' %>
-  <%= text_field_tag :percent_off %>
+  <%= text_field_tag :percent_off, percent_var %>
   <%= submit_tag submit_text %>
 <% end %>

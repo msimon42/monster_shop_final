@@ -10,7 +10,7 @@ RSpec.describe Coupon do
     it {should validate_presence_of :name}
     it {should validate_presence_of :code}
     it {should validate_presence_of :percent_off}
-    it {should validates_uniquness_of :name}
-    it {should validates_uniquness_of :code}
+    it {should validate_uniqueness_of :name}
+    it {should validate_uniqueness_of :code}
   end
 end

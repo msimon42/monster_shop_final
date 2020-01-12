@@ -6,13 +6,14 @@
   </thead>
   <tbody>
     <% @merchants.each do |merchant| %>
-      <tr>
+      <tr id="merchant-<%= merchant.id %>">
         <td><%= link_to "#{merchant.name}", "/admin/merchants/#{merchant.id}" %></td>
         <td>
-          <%= button_to 'Disable', "/admin/merchants/#{merchant.id}", method: :patch if merchant.enabled? %>
-          <%= button_to 'Enable', "/admin/merchants/#{merchant.id}", method: :patch if !merchant.enabled? %>
+          <%= button_to 'Disable', "/admin/merchants/#{merchant.id}/update-status", method: :patch if merchant.enabled? %>
+          <%= button_to 'Enable', "/admin/merchants/#{merchant.id}/update-status", method: :patch if !merchant.enabled? %>
         </td>
       <tr>
     <% end %>
   </tbody>
 </table>
+<%= button_to 'New Merchant', '/admin/merchants/new', method: :get %>

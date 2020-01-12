@@ -1,17 +1,21 @@
 require 'rails_helper'
 
 RSpec.describe 'New Merchant Creation' do
-  describe 'As a Visitor' do
+  before :each do
+    @admin = create :random_admin_user
+    allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@admin)
+  end
+  describe 'As an Admin' do
     it 'I can link to a new merchant page from merchant index' do
-      visit '/merchants'
+      visit '/admin/merchants'
 
-      click_link 'New Merchant'
+      click_button 'New Merchant'
 
-      expect(current_path).to eq('/merchants/new')
+      expect(current_path).to eq('/admin/merchants/new')
     end
 
     it 'I can use the new merchant form to create a new merchant' do
-      visit '/merchants/new'
+      visit '/admin/merchants/new'
 
       name = 'Megans Marmalades'
       address = '123 Main St'
@@ -27,12 +31,12 @@ RSpec.describe 'New Merchant Creation' do
 
       click_button 'Create Merchant'
 
-      expect(current_path).to eq('/merchants')
+      expect(current_path).to eq('/admin/merchants')
       expect(page).to have_link(name)
     end
 
     it 'I can not create a merchant with an incomplete form' do
-      visit '/merchants/new'
+      visit '/admin/merchants/new'
 
       name = 'Megans Marmalades'
 

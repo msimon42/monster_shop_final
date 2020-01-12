@@ -11,7 +11,7 @@
 
 <div class='card-columns'>
 <% @items.each do |item| %>
-  <section id='item-<%= item.id%>' class='card item-card'>
+  <div id='item-<%= item.id %>' class='card item-card'>
     <%= link_to(image_tag(item.image), item_path(item), id: 'image', class: 'card-img-top') %>
     <h2 class='card-title'><%= link_to item.name, "/items/#{item.id}" %></h2>
     <p class='card-text'><%= item.description %></p>
@@ -28,6 +28,6 @@
       <%= link_to 'Update Item', "/merchant/items/#{item.id}/edit" %>
       <%= button_to 'Delete', "/merchant/items/#{item.id}", method: :delete if item.orders.empty? %>
     <% end %>
-  </section>
+  </div>
 <% end %>
 </div>

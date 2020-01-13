@@ -19,6 +19,7 @@ class CartController < ApplicationController
 
   def empty
     session.delete(:cart)
+    session.delete(:coupon)
     redirect_to '/cart'
   end
 
@@ -40,10 +41,13 @@ class CartController < ApplicationController
 
   def validate_coupon
     if cart.eligible_code?(params[:coupon_code])
-      cart.apply_coupon(params[:coupon_code])
+      coupon = Coupon.find_by(code: params[:coupon_code])
+      cart.apply_coupon({merchant_id: coupon.merchant_id, discount: coupon.percent_off})
+      session[:coupon] = cart.applied_coupon
       redirect_to '/cart'
+      flash[:success] = 'Coupon applied'
     else
-      flash[:danger] = 'Code is not valid'
+      flash[:danger] = 'Coupon does not exist or is not valid for these items'
       redirect_to '/cart'
     end
   end

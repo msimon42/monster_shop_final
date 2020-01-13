@@ -3,7 +3,7 @@ class Cart
 
   def initialize(contents)
     @contents = contents || {}
-    @contents.default = 0
+    @contents.default = Hash.new(0)
   end
 
   def add_item(item_id)
@@ -42,5 +42,12 @@ class Cart
 
   def limit_reached?(item_id)
     count_of(item_id) == Item.find(item_id).inventory
+  end
+
+  def eligible_code?(code)
+    ids = items.map {|item| item.merchant_id}
+    codes = Coupon.where(merchant_id: ids)
+                  .pluck(:code)
+    codes.include?(code)
   end
 end

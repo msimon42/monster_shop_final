@@ -1,9 +1,10 @@
 class Cart
-  attr_reader :contents
+  attr_reader :contents, :applied_coupon
 
-  def initialize(contents)
+  def initialize(contents, applied_coupon)
     @contents = contents || {}
-    @contents.default = Hash.new(0)
+    @contents.default = 0
+    @applied_coupon = applied_coupon || Hash.new
   end
 
   def add_item(item_id)
@@ -27,9 +28,17 @@ class Cart
   def grand_total
     grand_total = 0.0
     @contents.each do |item_id, quantity|
-      grand_total += Item.find(item_id).price * quantity
+      grand_total += subtotal_of(item_id)
     end
     grand_total
+  end
+
+  def discount_amount(item)
+    if @applied_coupon['merchant_id'] == item.merchant_id
+      item.price * (@applied_coupon['discount'] / 100)
+    else
+      0
+    end
   end
 
   def count_of(item_id)
@@ -37,7 +46,8 @@ class Cart
   end
 
   def subtotal_of(item_id)
-    @contents[item_id.to_s] * Item.find(item_id).price
+    item = Item.find(item_id)
+    @contents[item_id.to_s] * (item.price - discount_amount(item))
   end
 
   def limit_reached?(item_id)
@@ -49,5 +59,9 @@ class Cart
     codes = Coupon.where(merchant_id: ids)
                   .pluck(:code)
     codes.include?(code)
+  end
+
+  def apply_coupon(coupon_info)
+    @applied_coupon = coupon_info
   end
 end

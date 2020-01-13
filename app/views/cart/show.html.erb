@@ -2,21 +2,47 @@
 <% if cart.items.empty? %>
   <p>Your Cart is Empty!</p>
 <% else %>
+<table class='cart-items'>
+  <thead>
+    <th>Item</th>
+    <th>Sold By</th>
+    <th>Price</th>
+    <th>Subtotal Before Discounts</th>
+    <th>Discounts</th>
+    <th>Subtotal</th>
+    <th>Quantity</th>
+  </thead>
+  <tbody>
   <% cart.items.each do |item| %>
-    <section id='item-<%= item.id%>'>
-      <h2><%= link_to item.name, "/items/#{item.id}" %></h2>
-      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTaLM_vbg2Rh-mZ-B4t-RSU9AmSfEEq_SN9xPP_qrA2I6Ftq_D9Qw">
-      <p>Price: <%= number_to_currency(item.price) %></p>
-      <p>Quantity: <%= cart.count_of(item.id) %></p>
-      <p>Subtotal: <%= number_to_currency(item.price * cart.count_of(item.id)) %></p>
-      <p>Discounts: (<%= number_to_currency(cart.discount_amount(item)) %>)</p>
-      <p>Final Subtotal: <%= number_to_currency(cart.subtotal_of(item.id)) %></p>
-      <p>Sold by: <%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %>, Inventory: <%= item.inventory %></p>
-      <%= button_to 'More of This!', "/cart/more/#{item.id}", method: :patch unless cart.limit_reached?(item.id) %>
-      <%= button_to 'Less of This!', "/cart/less/#{item.id}", method: :patch %>
-      <%= button_to 'Remove', "/cart/#{item.id}", method: :delete %>
-    </section>
-  <% end %>
+    <tr id='item-<%= item.id%>'>
+      <td>
+        <p align = "center">
+          <span>
+            <img align = "center" id="cart-image" src= <%= item.image %>>
+            <%=link_to item.name, "/items/#{item.id}" %>
+          </span>
+        </p>
+      </td>
+      <td><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></td>
+      <td><%= number_to_currency(item.price) %></td>
+      <td><%= number_to_currency(item.price * cart.count_of(item.id)) %></td>
+      <td><%= number_to_currency(cart.discount_amount(item)) %></td>
+      <td><%= number_to_currency(cart.subtotal_of(item.id)) %></td>
+      <td>
+        <center>
+          <section id="add-count-<%= item.id%>">
+            <%= button_to '+', "/cart/more/#{item.id}", method: :patch unless cart.limit_reached?(item.id) %>
+              <p><%=cart.count_of(item.id)%></p>
+            <%= button_to '-', "/cart/less/#{item.id}", method: :patch %>
+          </section>
+          <p><%= link_to "Remove", "/cart/#{item.id}", method: :delete %></p>
+        </center>
+      </td>
+    </tr>
+    <% end %>
+  </tbody>
+  </table>
+
   <section id='checkout'>
     <% if current_user %>
       <%= button_to 'Check Out', '/orders' %>

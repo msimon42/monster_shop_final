@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   delete '/cart', to: 'cart#empty'
   patch '/cart/:change/:item_id', to: 'cart#update_quantity'
   delete '/cart/:item_id', to: 'cart#remove_item'
+  patch '/cart/validate-coupon', to: 'cart#validate_coupon'
 
   get '/registration', to: 'users#new', as: :registration
   resources :users, only: [:create, :update]

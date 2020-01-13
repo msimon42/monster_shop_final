@@ -27,6 +27,59 @@
    text-decoration: none;
  }
 
+ button {
+
+ }
+
+ table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #340926;
+  text-align: center;
+  padding: 8px;
+}
+
+form {
+  align-content: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+  width: 60%;
+}
+
+input[type=text], select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=password], select {
+ width: 100%;
+ padding: 12px 20px;
+ margin: 8px 0;
+ display: inline-block;
+ border: 1px solid #ccc;
+ border-radius: 4px;
+ box-sizing: border-box;
+}
+
+input[type=email], select {
+ width: 100%;
+ padding: 12px 20px;
+ margin: 8px 0;
+ display: inline-block;
+ border: 1px solid #ccc;
+ border-radius: 4px;
+ box-sizing: border-box;
+}
+
  .card-columns {
    column-count: 5;
  }
@@ -80,3 +133,7 @@
  .item-card a {
    color: white;
  }
+
+ #cart-image{
+  width:50px;
+}

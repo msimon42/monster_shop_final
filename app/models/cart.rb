@@ -35,10 +35,14 @@ class Cart
 
   def discount_amount(item)
     if @applied_coupon['merchant_id'] == item.merchant_id
-      item.price * (@applied_coupon['discount'] / 100)
+      (item.price * @contents[item.id.to_s]) * (@applied_coupon['discount'] / 100)
     else
       0
     end
+  end
+
+  def total_discount
+    items.sum {|item| discount_amount(item)}
   end
 
   def count_of(item_id)
@@ -47,7 +51,7 @@ class Cart
 
   def subtotal_of(item_id)
     item = Item.find(item_id)
-    @contents[item_id.to_s] * (item.price - discount_amount(item))
+    (@contents[item_id.to_s] * item.price) - discount_amount(item)
   end
 
   def limit_reached?(item_id)

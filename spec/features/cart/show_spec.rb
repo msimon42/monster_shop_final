@@ -167,5 +167,111 @@ RSpec.describe 'Cart Show Page' do
         expect(page).to have_content("Cart: 0")
       end
     end
+
+    describe 'I can apply coupons' do
+      before :each do
+        @merchant = create :merchant
+        @merchant_2 = create :merchant
+        @items = create_list :item, 3, merchant: @merchant, price: 10
+        @item_2 = create :item, merchant: @merchant_2, price: 10
+        @coupon = create :coupon, percent_off: 10, merchant: @merchant
+        @coupon_2 = create :coupon
+      end
+
+      it 'will discount items when coupon is applied' do
+        visit item_path(@items[0])
+        click_button 'Add to Cart'
+        visit item_path(@items[1])
+        click_button 'Add to Cart'
+        visit item_path(@item_2)
+        click_button 'Add to Cart'
+
+        visit '/cart'
+
+        fill_in :coupon_code, with: @coupon.code
+        click_button 'Validate Coupon'
+
+        expect(current_path).to eq('/cart')
+        expect(page).to have_content('Coupon applied')
+
+        within "#item-discount-#{@items[0].id}" do
+          expect(page).to have_content('$1.00')
+        end
+
+        within "#item-subtotal-#{@items[0].id}" do
+          expect(page).to have_content('$9.00')
+        end
+
+        within "#item-discount-#{@item_2.id}" do
+          expect(page).to have_content("$0.00")
+        end
+
+        expect(page).to have_content("Total Discounts: ($2.00)")
+        expect(page).to have_content("Grand Total: $28.00")
+      end
+
+      it 'will not apply coupon if cart does not contain items associated with
+      coupons merchant' do
+        visit item_path(@items[0])
+        click_button 'Add to Cart'
+        visit item_path(@items[1])
+        click_button 'Add to Cart'
+        visit item_path(@item_2)
+        click_button 'Add to Cart'
+
+        visit '/cart'
+
+        fill_in :coupon_code, with: @coupon_2.code
+        click_button 'Validate Coupon'
+
+        expect(page).to have_content('Coupon does not exist or is not valid for these items')
+
+        within "#item-discount-#{@items[0].id}" do
+          expect(page).to have_content('$0.00')
+        end
+
+        within "#item-subtotal-#{@items[0].id}" do
+          expect(page).to have_content('$10.00')
+        end
+
+        within "#item-discount-#{@item_2.id}" do
+          expect(page).to have_content("$0.00")
+        end
+
+        expect(page).to have_content("Total Discounts: ($0.00)")
+        expect(page).to have_content("Grand Total: $30.00")
+      end
+
+      it 'will not apply coupon if code is not in system' do
+        visit item_path(@items[0])
+        click_button 'Add to Cart'
+        visit item_path(@items[1])
+        click_button 'Add to Cart'
+        visit item_path(@item_2)
+        click_button 'Add to Cart'
+
+        visit '/cart'
+
+        fill_in :coupon_code, with: 'epsteindidnotkillhimself'
+        click_button 'Validate Coupon'
+
+        expect(page).to have_content('Coupon does not exist or is not valid for these items')
+
+        within "#item-discount-#{@items[0].id}" do
+          expect(page).to have_content('$0.00')
+        end
+
+        within "#item-subtotal-#{@items[0].id}" do
+          expect(page).to have_content('$10.00')
+        end
+
+        within "#item-discount-#{@item_2.id}" do
+          expect(page).to have_content("$0.00")
+        end
+
+        expect(page).to have_content("Total Discounts: ($0.00)")
+        expect(page).to have_content("Grand Total: $30.00")
+      end
+    end
   end
 end

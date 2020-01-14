@@ -4,7 +4,9 @@
 <p>Status: <%= @order.status %></p>
 <p><%= @order.count_of_items %> items</p>
 <p>Subtotal: <%= number_to_currency(@order.subtotal) %>
-<p>Discounts: (<%= number_to_currency(@order.discounts) %>)
+<% if @order.discounts > 0 %>
+  <p class='discount'>Discounts: (<%= number_to_currency(@order.discounts) %>) Coupon: <%= @order.coupon.name %></p>
+<% end %>
 <p>Total: <%= number_to_currency(@order.grand_total) %></p>
 <%= button_to 'Cancel Order', "/profile/orders/#{@order.id}", method: :delete if @order.pending? %>
 

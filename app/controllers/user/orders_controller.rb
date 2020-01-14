@@ -10,15 +10,18 @@ class User::OrdersController < ApplicationController
   end
 
   def create
-    order = current_user.orders.new
-    order.save
+    order = current_user.orders.create
+    order.coupon_id = cart.applied_coupon['id'] if cart.applied_coupon['id']
       cart.items.each do |item|
         order.order_items.create({
           item: item,
           quantity: cart.count_of(item.id),
-          price: item.price
+          price: item.price,
+          discount: cart.discount_amount(item),
+          revenue: (item.price * cart.count_of(item.id)) - cart.discount_amount(item)
           })
       end
+      #binding.pry
     session.delete(:cart)
     session.delete(:coupon)
     flash[:notice] = "Order created successfully!"

@@ -59,7 +59,7 @@ class Cart
   end
 
   def eligible_code?(code)
-    ids = items.map {|item| item.merchant_id}
+    ids = items.pluck(:merchant_id)
     codes = Coupon.where(merchant_id: ids)
                   .pluck(:code)
     codes.include?(code)

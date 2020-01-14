@@ -23,9 +23,9 @@ RSpec.describe Order do
       @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
     end
 
-    it '.grand_total' do
-      expect(@order_1.grand_total).to eq(101.25)
-      expect(@order_2.grand_total).to eq(140.5)
+    it '.subtotal' do
+      expect(@order_1.subtotal).to eq(101.25)
+      expect(@order_2.subtotal).to eq(140.5)
     end
 
     it '.count_of_items' do

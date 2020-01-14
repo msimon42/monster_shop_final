@@ -8,12 +8,14 @@
 OrderItem.destroy_all
 Order.destroy_all
 User.destroy_all
+Coupon.destroy_all
 Merchant.destroy_all
 Item.destroy_all
 
 merchants = FactoryBot.create_list(:merchant, 15)
 items = Array.new
 merchants.each do |merchant|
+  FactoryBot.create_list(:coupon, 5, merchant: merchant)
   items << FactoryBot.create_list(:item, 30, merchant: merchant)
   FactoryBot.create(:random_merchant_user, merchant: merchant)
 end
@@ -25,7 +27,8 @@ orders = FactoryBot.create_list(:order, 25)
 orders.each do |order|
   order_items = items.sample(3)
   order_items.each do |item|
-    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory))
+    num = rand(item.inventory)
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: num, discount: 0, revenue: num * item.price)
   end
 end
 
@@ -34,7 +37,8 @@ orders = FactoryBot.create_list(:order, 15)
 orders.each do |order|
   order_items = items.sample(3)
   order_items.each do |item|
-    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory), fulfilled: true)
+    num = rand(item.inventory)
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: num, fulfilled: true, discount: 0, revenue: num * item.price)
   end
 end
 
@@ -43,7 +47,8 @@ orders = FactoryBot.create_list(:order, 15, status: 1)
 orders.each do |order|
   order_items = items.sample(3)
   order_items.each do |item|
-    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: rand(item.inventory), fulfilled: true)
+    num = rand(item.inventory)
+    OrderItem.create(order_id: order.id, item_id: item.id, price: item.price, quantity: num, fulfilled: true, discount: 0, revenue: num * item.price)
   end
 end
 
@@ -80,5 +85,3 @@ regular_user= User.create(
   zip: '80000',
   role: 0
 )
-
-FactoryBot.create_list :coupon, 4, merchant: merchant_user.merchant

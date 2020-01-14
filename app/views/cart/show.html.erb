@@ -26,8 +26,8 @@
       <td><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></td>
       <td><%= number_to_currency(item.price) %></td>
       <td><%= number_to_currency(item.price * cart.count_of(item.id)) %></td>
-      <td><%= number_to_currency(cart.discount_amount(item)) %></td>
-      <td><%= number_to_currency(cart.subtotal_of(item.id)) %></td>
+      <td id='item-discount-<%= item.id %>'><%= number_to_currency(cart.discount_amount(item)) %></td>
+      <td id='item-subtotal-<%= item.id %>'><%= number_to_currency(cart.subtotal_of(item.id)) %></td>
       <td>
         <center>
           <section id="add-count-<%= item.id%>">

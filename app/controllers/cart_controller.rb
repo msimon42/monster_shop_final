@@ -42,7 +42,7 @@ class CartController < ApplicationController
   def validate_coupon
     if cart.eligible_code?(params[:coupon_code])
       coupon = Coupon.find_by(code: params[:coupon_code])
-      cart.apply_coupon({merchant_id: coupon.merchant_id, discount: coupon.percent_off})
+      cart.apply_coupon({merchant_id: coupon.merchant_id, discount: coupon.percent_off, id: coupon.id})
       session[:coupon] = cart.applied_coupon
       redirect_to '/cart'
       flash[:success] = 'Coupon applied'

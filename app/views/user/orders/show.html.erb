@@ -3,6 +3,10 @@
 <p>Updated On: <%= @order.updated_at %></p>
 <p>Status: <%= @order.status %></p>
 <p><%= @order.count_of_items %> items</p>
+<p>Subtotal: <%= number_to_currency(@order.subtotal) %>
+<% if @order.discounts > 0 %>
+  <p class='discount'>Discounts: (<%= number_to_currency(@order.discounts) %>) Coupon: <%= @order.coupon.name %></p>
+<% end %>
 <p>Total: <%= number_to_currency(@order.grand_total) %></p>
 <%= button_to 'Cancel Order', "/profile/orders/#{@order.id}", method: :delete if @order.pending? %>
 
@@ -14,5 +18,7 @@
     <p>Quantity: <%= order_item.quantity %></p>
     <p>Price: <%= number_to_currency(order_item.price) %></p>
     <p>Subtotal: <%= number_to_currency(order_item.subtotal) %></p>
+    <p>Discounts: <%= number_to_currency(order_item.discount) %></p>
+    <p>Total: <%= number_to_currency(order_item.revenue) %></p>
   </section>
 <% end %>

@@ -5,5 +5,7 @@
   <%= text_field_tag :code, code_var %>
   <%= label_tag :percent_off, 'Percent Discount' %>
   <%= text_field_tag :percent_off, percent_var %>
+  <%= label_tag :one_use? %>
+  <%= check_box_tag :one_use?, true, checked %><br>
   <%= submit_tag submit_text %>
 <% end %>

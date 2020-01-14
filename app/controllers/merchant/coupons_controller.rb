@@ -4,8 +4,8 @@ class Merchant::CouponsController < Merchant::BaseController
   end
 
   def create
-    merchant = current_user.merchant
-    coupon = merchant.coupons.create(coupon_params)
+    coupon = create_coupon
+    binding.pry
     if coupon.save
       flash[:success] = 'Coupon created'
       redirect_to '/merchant/coupons'
@@ -54,6 +54,16 @@ class Merchant::CouponsController < Merchant::BaseController
   private
 
   def coupon_params
-    params.permit(:name, :code, :percent_off)
+    params.permit(:name, :code, :percent_off, :one_use?)
+  end
+
+  def create_coupon
+    merchant = current_user.merchant
+    case params[:one_use?]
+    when 'true'
+      merchant.coupons.create(coupon_params.merge!(one_use?: true))
+    else
+      merchant.coupons.create(coupon_params)
+    end
   end
 end

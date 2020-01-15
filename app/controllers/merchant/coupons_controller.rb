@@ -5,7 +5,6 @@ class Merchant::CouponsController < Merchant::BaseController
 
   def create
     coupon = create_coupon
-    binding.pry
     if coupon.save
       flash[:success] = 'Coupon created'
       redirect_to '/merchant/coupons'
@@ -16,8 +15,7 @@ class Merchant::CouponsController < Merchant::BaseController
   end
 
   def update
-    coupon = Coupon.find(params[:id])
-    coupon.update(coupon_params)
+    coupon = update_coupon
     if coupon.save
       flash[:success] = 'Coupon updated'
       redirect_to '/merchant/coupons'
@@ -65,5 +63,16 @@ class Merchant::CouponsController < Merchant::BaseController
     else
       merchant.coupons.create(coupon_params)
     end
+  end
+
+  def update_coupon
+    coupon = Coupon.find(params[:id])
+    case params[:one_use?]
+    when 'true'
+      coupon.update(coupon_params.merge!(one_use?: true))
+    else
+      coupon.update(coupon_params)
+    end
+    coupon
   end
 end

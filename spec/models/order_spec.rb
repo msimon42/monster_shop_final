@@ -18,14 +18,22 @@ RSpec.describe Order do
       @user = User.create!(name: 'Megan', address: '123 Main St', city: 'Denver', state: 'CO', zip: 80218, email: 'megan_1@example.com', password: 'securepassword')
       @order_1 = @user.orders.create!(status: "packaged")
       @order_2 = @user.orders.create!(status: "pending")
-      @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 5, fulfilled: true)
-      @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true)
-      @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false)
+      @order_item_1 = @order_1.order_items.create!(item: @ogre, price: @ogre.price, quantity: 5, fulfilled: true, revenue: (@ogre.price * 5), discount: 0)
+      @order_item_2 = @order_2.order_items.create!(item: @hippo, price: @hippo.price, quantity: 2, fulfilled: true, revenue: (@hippo.price * 2), discount: 0)
+      @order_item_3 = @order_2.order_items.create!(item: @ogre, price: @ogre.price, quantity: 2, fulfilled: false, revenue: (@ogre.price * 2) - 10, discount: 10)
     end
 
     it '.subtotal' do
       expect(@order_1.subtotal).to eq(101.25)
       expect(@order_2.subtotal).to eq(140.5)
+    end
+
+    it 'grand_total' do
+      expect(@order_2.grand_total).to eq(130.5)
+    end
+
+    it 'discounts' do
+      expect(@order_2.discounts).to eq(10)
     end
 
     it '.count_of_items' do

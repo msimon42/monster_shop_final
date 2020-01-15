@@ -88,6 +88,10 @@ RSpec.describe Cart do
       expect(@cart.discount_amount(@item_2)).to eq(0)
     end
 
+    it 'total discount' do
+      expect(@cart.total_discount).to eq(10)
+    end
+
     it 'subtotal_of' do
       expect(@cart.subtotal_of(@item_1.id)).to eq(90)
       expect(@cart.subtotal_of(@item_2.id)).to eq(100)

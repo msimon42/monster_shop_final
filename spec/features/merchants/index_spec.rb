@@ -56,7 +56,7 @@ RSpec.describe 'Merchant Index Page' do
     end
 
     it 'When I disable a merchant, their items become inactive' do
-      page.driver.submit :patch, "/admin/merchants/#{@megan.id}", {}
+      page.driver.submit :patch, "/admin/merchants/#{@megan.id}/update-status", {}
 
       visit items_path
 
@@ -79,7 +79,7 @@ RSpec.describe 'Merchant Index Page' do
     end
 
     it 'When I enable a merchant, their items become active' do
-      page.driver.submit :patch, "/admin/merchants/#{@brian.id}", {}
+      page.driver.submit :patch, "/admin/merchants/#{@brian.id}/update-status", {}
 
       visit items_path
 

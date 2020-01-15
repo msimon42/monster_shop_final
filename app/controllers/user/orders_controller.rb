@@ -16,10 +16,7 @@ class User::OrdersController < ApplicationController
     else
       create_order_without_coupon
     end
-    session.delete(:cart)
-    session.delete(:coupon)
-    flash[:notice] = "Order created successfully!"
-    redirect_to '/profile/orders'
+    complete_order
   end
 
   def cancel
@@ -54,5 +51,12 @@ class User::OrdersController < ApplicationController
         revenue: item.price * cart.count_of(item.id)
         })
     end
+  end
+
+  def complete_order
+    session.delete(:cart)
+    session.delete(:coupon)
+    flash[:notice] = "Order created successfully!"
+    redirect_to '/profile/orders'
   end
 end

@@ -34,23 +34,4 @@ RSpec.describe 'As a merchant user' do
       expect(page).to have_content('Coupons with orders cannot be deleted')
     end
   end
-
-  describe 'I can deactivate a coupon' do
-    before :each do
-      @merchant_1 = create :merchant
-      @merchant_user = create :random_merchant_user, merchant: @merchant_1
-      @coupon = create :coupon, merchant: @merchant_1
-      @coupon_2 = create :coupon, merchant: @merchant_1
-      order = create :order, coupon: @coupon_2, user: @merchant_user
-      allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(@merchant_user)
-    end
-
-    it 'deactivate coupon' do
-      visit '/merchant/coupons'
-
-      within "#coupon-#{@coupon.id}" do
-        click_button 'Deactivate'
-      end
-    end
-  end
 end

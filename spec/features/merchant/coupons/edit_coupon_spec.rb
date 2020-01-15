@@ -63,5 +63,16 @@ RSpec.describe 'Merchant edit coupon' do
       expect(current_path).to eq("/merchant/coupons/#{@coupon.id}/edit")
       expect(page).to have_content("Name has already been taken")
     end
+
+    it 'can change to one use only in edit form' do
+      visit "/merchant/coupons/#{@coupon.id}/edit"
+      page.check(:one_use?)
+      click_on 'Update Coupon'
+
+      expect(current_path).to eq('/merchant/coupons')
+      within "#coupon-#{@coupon.id}" do
+        expect(page).to have_content('TRUE')
+      end
+    end
   end
 end

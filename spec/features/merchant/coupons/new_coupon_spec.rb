@@ -25,10 +25,13 @@ RSpec.describe 'Merchant add coupon' do
 
       click_button 'Add Coupon'
 
+      coupon = Coupon.last
       expect(current_path).to eq('/merchant/coupons')
-      expect(page).to have_content('Coupon1')
-      expect(page).to have_content('epsteindidnotkillhimself')
-      expect(page).to have_content('15')
+      within "#coupon-#{coupon.id}" do
+        expect(page).to have_content('Coupon1')
+        expect(page).to have_content('epsteindidnotkillhimself')
+        expect(page).to have_content('15')
+      end
     end
 
     it 'can visit a page containing list of all coupons' do
@@ -75,6 +78,24 @@ RSpec.describe 'Merchant add coupon' do
 
       expect(current_path).to eq('/merchant/coupons/new')
       expect(page).to have_content("Code has already been taken")
+    end
+
+    it 'can create coupon that is one use only' do
+      visit '/merchant/coupons/new'
+
+      fill_in :name, with: 'Coupon1'
+      fill_in :code, with: 'epsteindidnotkillhimself'
+      fill_in :percent_off, with: '15'
+      page.check(:one_use?)
+      click_button 'Add Coupon'
+
+      coupon = Coupon.last
+      expect(current_path).to eq('/merchant/coupons')
+      within "#coupon-#{coupon.id}" do
+        expect(page).to have_content('Coupon1')
+        expect(page).to have_content('epsteindidnotkillhimself')
+        expect(page).to have_content('15')
+      end   
     end
   end
 end

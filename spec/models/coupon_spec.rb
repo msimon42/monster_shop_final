@@ -15,4 +15,16 @@ RSpec.describe Coupon do
     it {should validate_uniqueness_of :name}
     it {should validate_uniqueness_of :code}
   end
+
+  describe 'methods' do
+    it 'already_used?' do
+      @user = create :random_user
+      @user_2 = create :random_user
+      @coupon = create :coupon
+      @order = create :order, user: @user, coupon: @coupon
+
+      expect(@coupon.already_used?(@user)).to be true
+      expect(@coupon.already_used?(@user_2)).to be false
+    end
+  end
 end
